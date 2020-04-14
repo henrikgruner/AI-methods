@@ -6,8 +6,10 @@ from sklearn.naive_bayes import BernoulliNB
 from sklearn.metrics import accuracy_score
 from sklearn.tree import DecisionTreeClassifier
 
-stop_words_list = get_stop_words('english')
 
+# Most common stopwords.
+stop_words_list = get_stop_words('english')
+# problem with ' in words. if We've is a stop word, the word will ble split up.
 stop_words_list = stop_words_list + ['aren', 'can', 'couldn', 'didn', 'doesn', 'don', 'hadn', 'hasn',
                                      'haven', 'isn', 'let', 'll', 'mustn', 're', 'shan', 'shouldn', 've', 'wasn', 'weren', 'won', 'wouldn']
 
@@ -17,6 +19,8 @@ x_train, y_train = data["x_train"], data["y_train"]
 x_test, y_test = data["x_test"], data["y_test"]
 
 
+# Binary because this is a classifier problem
+# n_feature = 2**10 for speed
 hv = HashingVectorizer(stop_words=stop_words_list,
                        binary=True, n_features=2**10)
 
@@ -24,6 +28,7 @@ x_train = hv.transform(x_train)
 x_test = hv.transform(x_test)
 
 classifierBNB = BernoulliNB()
+# Max_depth = 12 is tradeoff speed and accuracy
 classifierDTC = DecisionTreeClassifier(max_depth=12)
 
 classifierBNB.fit(X=x_train, y=y_train)
